@@ -16,11 +16,11 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_props_to_html_single(self):
         node = HTMLNode(props={"href" : "https://google.com"} )
-        self.assertEqual(node.props_to_html(), " href=\"https://google.com\" ")
+        self.assertEqual(node.props_to_html(), " href=\"https://google.com\"")
 
     def test_props_to_html_multiple(self):
         node = HTMLNode("a", "link", children=None, props={"href" : "https://google.com", "target" : "_blank"} )
-        self.assertEqual(node.props_to_html()," href=\"https://google.com\" target=\"_blank\" ")
+        self.assertEqual(node.props_to_html()," href=\"https://google.com\" target=\"_blank\"")
     
     def test_repr(self):
         node = HTMLNode("p", "Hello", children=None, props={"class": "highlight"})
