@@ -2,7 +2,7 @@ import unittest
 
 from leafnode import LeafNode
 
-class TestHTMLNode(unittest.TestCase):
+class TestLeafNode(unittest.TestCase):
     def test_init(self):
        node = LeafNode("p", "Hello", props={"class" : "text"})
        self.assertEqual(node.tag, "p")
