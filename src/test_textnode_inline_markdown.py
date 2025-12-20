@@ -48,8 +48,7 @@ class TestTextNode(unittest.TestCase):
         self.assertListEqual([("", "https://www.boot.dev")], links)
 
     # Ensure images don’t get picked up as links
-    # A string with only ![image](url) and no regular links 
-    # → extract_markdown_links returns [].
+
     def test_markdown_extract_mixed_links_images(self):
         images = extract_markdown_images(
             "This is text with an ![Cool image!](https://i.imgur.com/zjjcJKZ.png)! This is text with a link [Boot.dev!](https://www.boot.dev)"
@@ -69,6 +68,8 @@ class TestTextNode(unittest.TestCase):
         self.assertListEqual([], matches_links)
 
     # no links found
+    # A string with only ![image](url) and no regular links 
+    # → extract_markdown_links returns [].
     def test_links_not_extracted_from_images_only(self):
         links = extract_markdown_links(
         "Only an image here: ![Cool image!](https://i.imgur.com/zjjcJKZ.png)"
