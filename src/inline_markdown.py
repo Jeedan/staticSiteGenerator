@@ -1,6 +1,21 @@
 import re
 from textnode import TextType, TextNode
 
+
+def text_to_textnodes(text):
+    #This is **text** with an _italic_ word and a `code block` 
+    # and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) 
+    # and a [link](https://boot.dev)
+    node = TextNode(text, TextType.TEXT)
+    new_nodes = [node]
+    bold = split_nodes_delimiter(new_nodes, "**", TextType.BOLD )
+    italic = split_nodes_delimiter(bold, "_", TextType.ITALIC )
+    code = split_nodes_delimiter(italic, "`", TextType.CODE )
+    image = split_nodes_image(code)
+    link = split_nodes_link(image)
+
+    return link
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for old_node in old_nodes:
