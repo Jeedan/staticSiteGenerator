@@ -23,15 +23,37 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
 
-
-def block_to_block_type(md):
-    block_type = BlockType.PARAGRAPH
-    if not md:
-        return block_type
+def block_to_block_type(block):
+    if not block:
+        return BlockType.PARAGRAPH
+    lines = block.split("\n")
+    if block.startswith(("# ", "## ", "### ", "#### ","##### ", "###### ")):
+        return BlockType.HEADING
     
+    if len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
+        return BlockType.CODE
     
+    if block.startswith(">"):
+        for line in lines:
+            if not line.startswith(f">"):
+                return BlockType.PARAGRAPH
+        return BlockType.QUOTE
+    
+    if block.startswith("- "):
+        for line in lines:
+            if not line.startswith(f"- "):
+                return BlockType.PARAGRAPH
+        return BlockType.UNORDERED_LIST
+    
+    if block.startswith("1. "):
+        i = 1
+        for line in lines:
+            if not line.startswith(f"{i}. "):
+                return BlockType.PARAGRAPH
+            i += 1
+        return BlockType.ORDERED_LIST
 
-    return block_type
+    return BlockType.PARAGRAPH
 
 # It takes a raw Markdown string as input
 # splits the given string with double space into a list of lines
