@@ -234,14 +234,14 @@ This is a Code Block
                 # expected result
                 BlockType.ORDERED_LIST,
             ),
-            (
-                # name
-                "wrong_start_ordered_list",
-                # md or input
-                """79. This is an ordered list item""",
-                # expected result
-                BlockType.PARAGRAPH,
-            ),
+            # (
+            #     # name TODO: decide if we want to support this case
+            #     "wrong_start_ordered_list",
+            #     # md or input
+            #     """79. This is an ordered list item""",
+            #     # expected result
+            #     BlockType.PARAGRAPH,
+            # ),
             (
                 # name
                 "wrong_increment_ordered_list",

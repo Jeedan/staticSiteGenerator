@@ -45,8 +45,11 @@ def block_to_block_type(block):
                 return BlockType.PARAGRAPH
         return BlockType.UNORDERED_LIST
     
-    if block.startswith("1. "):
-        i = 1
+    # find first occurence of ". " and 
+    # then check if all characters before it are digits
+    dot_index = block.find(". ")
+    if dot_index != -1 and block[:dot_index].isdigit():
+        i = int(block[:dot_index])
         for line in lines:
             if not line.startswith(f"{i}. "):
                 return BlockType.PARAGRAPH

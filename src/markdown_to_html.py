@@ -6,7 +6,7 @@ from inline_markdown import text_to_textnodes
 def markdown_to_html_node(md):
     # split the markdown into blocks
     blocks = markdown_to_blocks(md)
-    print(f"\n")
+    #print(f"\n")
     #print(f"DEBUG: {blocks}")
     html_nodes = []
     # loop over each block to determine the block's type
@@ -30,12 +30,10 @@ def markdown_to_html_node(md):
             html_nodes.append(ordered_list_to_children(block))
 
         if block_type == BlockType.CODE:
-            print(f"code:\n{block},\nblock_type:{block_type}")
-            print(f"code_node:\n{codeblock_to_children(block)}")
-
+            #print(f"code:\n{block},\nblock_type:{block_type}")
             html_nodes.append(codeblock_to_children(block))
 
-   
+    #print("BLOCKS:", repr(blocks))
     #print(f"html_nodes: {html_nodes}")
     root_div = ParentNode("div", html_nodes)
     #print(f"root_div: {root_div}")
@@ -53,11 +51,15 @@ def text_to_children(text):
 
 # headings
 def heading_to_children(text):
+    #print(f"heading_to_children: {text}")
+
     heading_level = 0
     heading_text = ""
-    for i in range(len(text)):
-        if text[i] == "#":
+    for i in text:
+        if i == "#":
             heading_level += 1
+        else:
+            break
     
     heading_text = text[heading_level:].strip()
     #print(f"heading_text: {heading_text}")
@@ -138,13 +140,9 @@ def ordered_list_to_children(text):
 def codeblock_to_children(text):
     lines = text.split("\n")
     code_block = lines[1:-1]
-    #print(f"lines: {code_block}")
+    #print(f"code_block: {code_block}")
     code_text = "\n".join(code_block)
     code_text += "\n"
-    #print(f"code_text: {code_text}")
-    
     code_node = TextNode(code_text, TextType.CODE)
-    #print(f"code_node: {code_node}")
-
     html_node = text_node_to_html_node(code_node)
     return ParentNode(f"pre", [html_node])
