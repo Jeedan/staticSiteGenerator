@@ -2,7 +2,7 @@ import os
 from extracttitle import extract_title
 from markdown_to_html import markdown_to_html_node
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path="/"):
     abs_from_path = os.path.abspath(from_path)
     abs_template_path = os.path.abspath(template_path)
     abs_dest_path = os.path.abspath(dest_path)
@@ -19,6 +19,7 @@ def generate_page(from_path, template_path, dest_path):
         #print(f"html_string: {html_string}")
         title = extract_title(markdown_file)
         html_page = template_file.replace("{{ Title }}", title).replace("{{ Content }}", html_string)
+        html_page = html_page.replace("href=\"/", f"href=\"{base_path}").replace("src=\"/", f"src=\"{base_path}")
         #print(f"title: {title}")
 
         dir_name = os.path.dirname(abs_dest_path)
@@ -32,7 +33,7 @@ def generate_page(from_path, template_path, dest_path):
         raise e
     print(f"Successfully generated Page at {abs_dest_path}")
 
-def generate_pages_recursively(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursively(dir_path_content, template_path, dest_dir_path, base_path):
     abs_dir_path_content = os.path.abspath(dir_path_content)
     abs_dest_dir_path =  os.path.abspath(dest_dir_path)
     print(f"Generating pages recursively from {abs_dir_path_content} to {abs_dest_dir_path}")
@@ -54,7 +55,7 @@ def generate_pages_recursively(dir_path_content, template_path, dest_dir_path):
                     print(f"DEBUG dest_subdir: {dest_subdir}")
                     print(f"DEBUG dest_path: {dest_path}")
                     # recursively generate pages
-                    generate_page(from_path, template_path, dest_path)
+                    generate_page(from_path, template_path, dest_path, base_path)
     except Exception as e:
         print(f"Error generating pages recursively: {e}")
         raise e
