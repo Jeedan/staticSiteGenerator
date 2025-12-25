@@ -72,15 +72,20 @@ def heading_to_children(text):
 
 # quoteblocks
 def quoteblock_to_children(text):
-    #print(f"quoteblock_to_children: {text}")
-
+    #print("DEBUG RAW BLOCKQUOTE TEXT:", repr(text))
     quoteblock = text.split("\n")
-    cleaned_lines= []
+    quote_text = None
     for quote in quoteblock:
-        cleaned = quote.replace(">", "")
-        cleaned_lines.append(cleaned)
-    quote_text = " ".join(cleaned_lines)
-    #print(f"quote_text: {quote_text}")
+        if quote.startswith("> "):
+            cleaned = quote.replace("> ", "")
+            cleaned = cleaned.strip()
+            ## remove attribution
+            # if "--" in cleaned:
+            #     cleaned = cleaned[:cleaned.index("--")].strip()
+            
+            if cleaned and quote_text is None:
+                quote_text = cleaned
+                break
     text_nodes = text_to_textnodes(quote_text)
     html_nodes = html_nodes_from_children(text_nodes)
     
